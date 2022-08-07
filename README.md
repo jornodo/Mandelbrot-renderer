@@ -1,6 +1,6 @@
 # Mandelbrot renderer
 This is a Pluto notebook in julia that renders pictures of specific coordinates of the mandelbrot set.
-It includes both a sequential way of doing so on GPU, and utilizes CUDA for rendering on GPU.
+It includes both a sequential way of doing so on CPU, and utilizes CUDA for rendering on GPU.
 
 # Dependencies
 In order to run it, you have to have julia installed, along with its dependencies, aswell as having CUDA installed with a 
