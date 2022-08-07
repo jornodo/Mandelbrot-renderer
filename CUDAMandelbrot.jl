@@ -18,8 +18,6 @@ end
 begin
 	using CUDA
 	using Images
-	using ImageFiltering
-	using ImageMagick
 	using Colors
 	using PlutoUI
 end
@@ -199,16 +197,12 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
-ImageFiltering = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
-ImageMagick = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 CUDA = "~3.12.0"
 Colors = "~0.12.8"
-ImageFiltering = "~0.7.1"
-ImageMagick = "~1.2.2"
 Images = "~0.25.2"
 PlutoUI = "~0.7.39"
 """
