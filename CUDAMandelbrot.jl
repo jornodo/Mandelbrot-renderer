@@ -141,12 +141,6 @@ end
 # ╔═╡ 1fd5ee0e-5c31-4d80-abc1-3d06bee16ecb
 makeFractalImageCuda(cudaMandelbrot(-.5, 0, 2.5, 10000, 750))
 
-# ╔═╡ e9af7a51-1b1f-4747-b570-5c70996ca781
-CUDA.reclaim()
-
-# ╔═╡ ab986ec1-6ecd-4be3-9617-8c5edee16674
-CUDA.memory_status()
-
 # ╔═╡ 4dbcc065-92b6-4aa3-8b6e-c2ad67312ac8
 # For this example the CUDA version runs 4x faster then the standard one.
 begin
@@ -1147,8 +1141,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═6ae156ff-5038-47e0-a282-5680fc7e9f37
 # ╠═d46e0bce-e57d-455b-a152-8fef500278b3
 # ╠═1fd5ee0e-5c31-4d80-abc1-3d06bee16ecb
-# ╠═e9af7a51-1b1f-4747-b570-5c70996ca781
-# ╠═ab986ec1-6ecd-4be3-9617-8c5edee16674
 # ╠═4dbcc065-92b6-4aa3-8b6e-c2ad67312ac8
 # ╠═034edbee-3b6e-4051-8a37-b243cfa58389
 # ╠═0c2e1532-415a-48be-8f64-31044508b988

@@ -25,3 +25,9 @@ using Pluto; Pluto.run()
 ```
 
 This will run the notebook server, and open it as a tab in your browser.
+
+# Examples
+![plot](HighItCount.png)
+![plot](HighDetail.png)
+![plot](5krender10.png)
+
