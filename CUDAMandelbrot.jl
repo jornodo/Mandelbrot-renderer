@@ -80,13 +80,13 @@ cudaMandelbrot(x, y, range, iterations, resolution) = begin
 		z = 0
 
 		while abs(z) < 4 && n < iterations
-			temp = z^2 + c
+			temp = z * z + c
 			
 			z = temp	
 			n += 1
 		end
 		
-		n == iterations ? (0, 0) : (abs(sin(abs(z))), abs(cos(n)))
+		n == iterations ? (0, 0) : (abs(cos(n)), abs(sin(abs(z))))
 	end
 
 	# Defining bounds and stepsize
@@ -101,7 +101,7 @@ cudaMandelbrot(x, y, range, iterations, resolution) = begin
 	coordinates = cu([(x, y) for x in minX:stepsize:maxX, y in minY:stepsize:maxY])
 
 	# Using broadcasting to calculate each part of the set on the gpu.
-	CUDA.@sync calculatePoint.(coordinates)
+	calculatePoint.(coordinates)
 
 end
 
@@ -111,7 +111,7 @@ makeFractalImage(Array(cudaMandelbrot(-.5, 0, 2.5, 1000, 750)))
 
 # ╔═╡ 6ae156ff-5038-47e0-a282-5680fc7e9f37
 begin
-	# GPU takes 0.08 seconds, and CPU takes 4.28 for this 
+	# GPU takes 0.02 seconds, and CPU takes 4.41 for this 
 	@time cudaMandelbrot(-.5, 0, 2.5, 1000, 2000)
 	@time seqMandelbrot(-.5, 0, 2.5, 1000, 2000)
 	
@@ -125,11 +125,11 @@ end
 makeFractalImageCuda(matrix) = begin
 	
 	makePixel(tup::Tuple{Float64, Float64})::RGB{Float64} = begin
-		RGB(tup[1], tup[2], sin(tup[1] * tup[2]))
+		RGB(tup[1], tup[2], sin(tup[1] + tup[2]))
 	end
 
 	# Broadcasting makePixel onto each point in matrix
-	CUDA.@sync cuData = makePixel.(matrix)
+	cuData = makePixel.(matrix)
 
 	# Moving data back from GPU, freeing memory and returning it as an Array
 	image = Array(cuData)
@@ -144,8 +144,8 @@ makeFractalImageCuda(cudaMandelbrot(-.5, 0, 2.5, 10000, 750))
 # ╔═╡ 4dbcc065-92b6-4aa3-8b6e-c2ad67312ac8
 # For this example the CUDA version runs 4x faster then the standard one.
 begin
-#	makeFractalImageCuda(cudaMandelbrot(-.5, 0, 2.5, 1000, 10000))
-#	makeFractalImage(cudaMandelbrot(-.5, 0, 2.5, 1000, 10000))
+	@time makeFractalImageCuda(cudaMandelbrot(-.5, 0, 2.5, 1000, 10000))
+	@time makeFractalImage(Array(cudaMandelbrot(-.5, 0, 2.5, 1000, 10000)))
 end
 
 # ╔═╡ 034edbee-3b6e-4051-8a37-b243cfa58389
@@ -171,7 +171,7 @@ makeZoom(zoomRate, range, x, y, amountOfRenders, resolution, iterations) = begin
 end
 
 # ╔═╡ 0c2e1532-415a-48be-8f64-31044508b988
-testZoom = makeZoom(.9, 2, -0.7504773255921775, -0.0185887019189071, 300, 750, 1000)
+testZoom = makeZoom(.85, 2, -0.7504773255921775, -0.0185887019189071, 120, 750, 1000)
 
 # ╔═╡ a05e3868-32ec-4bc1-8440-22688eccd1b1
 @bind index Slider(1:size(testZoom)[1])
@@ -185,6 +185,9 @@ testZoom[index]
 make3dMatrix(listOfImages) = begin
 	[listOfImages[i][j, k] for i in 1:size(listOfImages)[1], j in 1:size(listOfImages[1])[1]-1, k in 1:size(listOfImages[1])[1]-1]
 end
+
+# ╔═╡ 4a48c5d1-4f3b-4769-b10a-1a83db54c1dc
+save("testzoom.gif", permutedims(make3dMatrix(testZoom), (3, 2, 1)))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1147,5 +1150,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─a05e3868-32ec-4bc1-8440-22688eccd1b1
 # ╠═ebd8b6f2-f54f-4bc3-9f11-5300b32522be
 # ╠═92fff037-f075-4225-a3ef-675e3a5d3417
+# ╠═4a48c5d1-4f3b-4769-b10a-1a83db54c1dc
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -17,7 +17,7 @@ end
 ```
 
 # Running
-After dealing with this all that is left is running the notebook with Pluto.
+After dealing installing the dependencies, all that is left is running the notebook with Pluto.
 
 From the Julia REPL run:
 ```julia
@@ -27,7 +27,10 @@ using Pluto; Pluto.run()
 This will run the notebook server, and open it as a tab in your browser.
 
 # Examples
-![plot](HighItCount.png)
+
 ![plot](HighDetail.png)
+![plot](testzoom.gif)
+![plot](HighItCount.png)
 ![plot](5krender10.png)
+
 
