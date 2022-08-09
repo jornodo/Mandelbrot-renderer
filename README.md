@@ -17,7 +17,7 @@ end
 ```
 
 # Running
-After dealing installing the dependencies, all that is left is running the notebook with Pluto.
+After dealing with installing the dependencies, all that is left is running the notebook with Pluto.
 
 From the Julia REPL run:
 ```julia
