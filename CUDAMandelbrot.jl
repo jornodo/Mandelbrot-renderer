@@ -30,8 +30,8 @@ seqMandelbrot(x, y, range, iterations, resolution) = begin
 		n = 0
 		z = 0
 
-		# The higher values we let values converge towards infinity, the higher the resolution will be
-		while abs(z) < 2^62 && n < iterations
+		# We choose a bailout point of 4 for more details in the image. Increasing this further will remove what is rendered as to be part of the set.
+		while abs(z) < 4 && n < iterations
 			temp = z^2 + c
 			
 			z = temp	
@@ -60,7 +60,7 @@ end
 
 # ╔═╡ 002cd463-7117-4799-a8ba-487b6af14b54
 # Function for generating picture 
-# Takes matrix of tuples as argument
+# Takes matrix of tuples as argument and maps their values to RGB then composes an image with a list comprehension.
 makeFractalImage(matrix) = [RGB(matrix[i, j][1], matrix[i, j][2], abs(sin((matrix[i, j][1] + matrix[i, j][2])))) for i in 1:size(matrix)[1], j in 1:size(matrix)[2]]
 
 # ╔═╡ 32a8cf25-af3b-44a1-ba59-05cbd32e7c94
@@ -111,7 +111,7 @@ makeFractalImage(Array(cudaMandelbrot(-.5, 0, 2.5, 1000, 750)))
 
 # ╔═╡ 6ae156ff-5038-47e0-a282-5680fc7e9f37
 begin
-	# GPU takes 0.02 seconds, and CPU takes 4.41 for this 
+	# GPU takes 0.02 seconds, and CPU takes 2.49 for this 
 	@time cudaMandelbrot(-.5, 0, 2.5, 1000, 2000)
 	@time seqMandelbrot(-.5, 0, 2.5, 1000, 2000)
 	
